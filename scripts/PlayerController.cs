@@ -4,36 +4,55 @@ using System.ComponentModel.DataAnnotations;
 using Range = Godot.Range;
 
 public partial class PlayerController : CharacterBody3D {
-  [Export]
-  public float movementSpeed { get; private set; } = 1f;
+  [Export] public float movementSpeed { get; private set; } = 8f;
+  [Export] public float acceleration { get; private set; } = 20f;
+  [Export] public float jumpImpulse { get; private set; } = 12f;
+  [Export] public float gravity { get; private set; } = -30f;
 
-  [Export, Range(0f, 1f)]
-  public float movementSmoothing { get; private set; } = 0f;
+  public Vector3 lastMovementDirection { get; private set; } = Vector3.Back;
+  public bool isMoving => desiredVelocity.LengthSquared() > movingThreshold;
 
   private Vector3 desiredVelocity = Vector3.Zero;
   private Vector3 velocity = Vector3.Zero;
+  private float movingThreshold = 0.2f;
+  private bool isStartingJump = false;
 
-  // Called when the node enters the scene tree for the first time.
+  private Camera3D camera;
+
   public override void _Ready() {
+    camera = GDExtensions.GetChildByType<Camera3D>(this);
   }
 
   public override void _Process(double delta) {
-    desiredVelocity = new Vector3(
-      (Input.IsActionPressed("MoveRight") ? 1f : 0f) - (Input.IsActionPressed("MoveLeft") ? 1f : 0f),
-      0f,
-      -((Input.IsActionPressed("MoveForward") ? 1f : 0f) - (Input.IsActionPressed("MoveBackward") ? 1f : 0f))
-    ).Normalized();
+    var rawInput = Input.GetVector("move_left", "move_right", "move_backwards", "move_forwards");
+
+    var forward = camera.GlobalBasis.Z;
+    var right = camera.GlobalBasis.X;
+
+    desiredVelocity = right * rawInput.X + forward * -rawInput.Y;
+    desiredVelocity.Y = 0;
+    desiredVelocity = desiredVelocity.Normalized();
+
+    isStartingJump |= Input.IsActionJustPressed("jump") && IsOnFloor();
   }
 
-  // Called every frame. 'delta' is the elapsed time since the previous frame.
-  public override void _PhysicsProcess(double delta) {
-    float floatDelta = (float)delta;
-    velocity = velocity.Lerp(desiredVelocity, 1f - movementSmoothing);
+  public override void _PhysicsProcess(double doubleDelta) {
+    float delta = (float)doubleDelta;
 
-    Velocity = velocity * movementSpeed * floatDelta;
+    var yVelocity = Velocity.Y;
+    Velocity = new Vector3(Velocity.X, 0f, Velocity.Z);
+    Velocity = Velocity.MoveToward(desiredVelocity * movementSpeed, acceleration * delta);
+    Velocity = new Vector3(Velocity.X, yVelocity + gravity * delta, Velocity.Z);
+
+    if (isStartingJump) {
+      isStartingJump = false;
+      Velocity = new Vector3(Velocity.X, Velocity.Y + jumpImpulse, Velocity.Z);
+    }
 
     MoveAndSlide();
 
-    desiredVelocity = Vector3.Zero;
+    if (desiredVelocity.LengthSquared() > movingThreshold * movingThreshold) {
+      lastMovementDirection = desiredVelocity;
+    }
   }
 }
