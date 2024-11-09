@@ -17,7 +17,7 @@ size = Vector2(1000, 1000)
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
 script = ExtResource("1_tdjm0")
 movementSpeed = 5.0
-movementSmoothing = 1.0
+movementSmoothing = 0.5
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="CharacterBody3D"]
 mesh = SubResource("CapsuleMesh_02ia5")
