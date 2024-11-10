@@ -23,19 +23,53 @@ public partial class TimeManager : Node3D {
   public event Action<ulong> OnMonthUpdated;
   public event Action<ulong> OnYearUpdated;
 
-  public readonly Dictionary<ulong, string> monthNames = new() {
-  {1ul, "January"},
-  {2ul, "February"},
-  {3ul, "March"},
-  {4ul, "April"},
-  {5ul, "May"},
-  {6ul, "June"},
-  {7ul, "July"},
-  {8ul, "August"},
-  {9ul, "September"},
-  {10ul, "October"},
-  {11ul, "November"},
-  {12ul, "December"},
+  public enum Month {
+    January = 1,
+    February,
+    March,
+    April,
+    May,
+    June,
+    July,
+    August,
+    September,
+    October,
+    November,
+    December
+  }
+
+  public enum Season {
+    Summer,
+    Autumn,
+    Winter,
+    Spring
+  }
+
+  public enum Hemisphere {
+    North,
+    South
+  }
+
+  public readonly Dictionary<Month, string> monthNames = new() {
+    {Month.January, "January"},
+    {Month.February, "February"},
+    {Month.March, "March"},
+    {Month.April, "April"},
+    {Month.March, "May"},
+    {Month.June, "June"},
+    {Month.July, "July"},
+    {Month.August, "August"},
+    {Month.September, "September"},
+    {Month.October, "October"},
+    {Month.November, "November"},
+    {Month.December, "December"},
+  };
+
+  public readonly Dictionary<Season, string> seasonNames = new() {
+    {Season.Summer, "Summer"},
+    {Season.Autumn, "Autumn"},
+    {Season.Winter, "Winter"},
+    {Season.Spring, "Spring"},
   };
 
   private ulong year = 1ul;
@@ -48,19 +82,37 @@ public partial class TimeManager : Node3D {
 
   private double timeSpeed => (24 * 60) / dayLength;
 
-  private readonly Dictionary<ulong, ulong> monthLengths = new(){
-  {1ul, 31ul},
-  {2ul, 28ul},
-  {3ul, 31ul},
-  {4ul, 30ul},
-  {5ul, 31ul},
-  {6ul, 30ul},
-  {7ul, 31ul},
-  {8ul, 31ul},
-  {9ul, 30ul},
-  {10ul, 31ul},
-  {11ul, 30ul},
-  {12ul, 31ul},
+  // 0u = northern hemisphere, 1u = southern hemisphere
+  private Hemisphere hemisphere = Hemisphere.South;
+
+  private readonly Dictionary<Month, ulong> monthLengths = new(){
+    {Month.January, 31ul},
+    {Month.February, 28ul},
+    {Month.March, 31ul},
+    {Month.April, 30ul},
+    {Month.May, 31ul},
+    {Month.June, 30ul},
+    {Month.July, 31ul},
+    {Month.August, 31ul},
+    {Month.September, 30ul},
+    {Month.October, 31ul},
+    {Month.November, 30ul},
+    {Month.December, 31ul},
+  };
+
+  private readonly Dictionary<Month, (Season, Season)> monthToSeason = new() {
+    {Month.January, (Season.Winter, Season.Summer)},
+    {Month.February, (Season.Winter, Season.Summer)},
+    {Month.March, (Season.Spring, Season.Autumn)},
+    {Month.April, (Season.Spring, Season.Autumn)},
+    {Month.March, (Season.Spring, Season.Autumn)},
+    {Month.June, (Season.Summer, Season.Winter)},
+    {Month.July, (Season.Summer, Season.Winter)},
+    {Month.August, (Season.Summer, Season.Winter)},
+    {Month.September, (Season.Autumn, Season.Spring)},
+    {Month.October, (Season.Autumn, Season.Spring)},
+    {Month.November, (Season.Autumn, Season.Spring)},
+    {Month.December, (Season.Winter, Season.Summer)},
   };
 
   public override void _Ready() {
@@ -84,8 +136,6 @@ public partial class TimeManager : Node3D {
     CascadeTime(ref hour, ref day, 24ul, OnDayUpdated);
     CascadeDay(ref day, ref month, OnMonthUpdated);
     CascadeTime(ref month, ref year, 12ul, OnYearUpdated, true);
-
-    GD.Print($"{year}-{month}-{day}T{hour}:{minute}:{second}.{(int)milliseconds}");
   }
 
   public TMDateTime GetDateTime() {
@@ -114,7 +164,7 @@ public partial class TimeManager : Node3D {
     bool overflow, monthUpdated = false;
     do {
       overflow = false;
-      ulong monthLength = month == 2ul ? (IsLeapyear(year) ? 29ul : 28ul) : monthLengths[(month - 1) % 12 + 1];
+      ulong monthLength = month == 2ul ? (IsLeapyear(year) ? 29ul : 28ul) : monthLengths[(Month)((month - 1) % 12 + 1)];
       if (day > monthLength) {
         overflow = true;
         day -= monthLength;
