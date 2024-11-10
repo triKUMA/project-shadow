@@ -64,74 +64,74 @@ public partial class TimeManager : Node3D {
   };
 
   public override void _Ready() {
-	if (Instance == null) {
-	  Instance = this;
-	} else {
-	  QueueFree();
-	}
+    if (Instance == null) {
+      Instance = this;
+    } else {
+      QueueFree();
+    }
   }
 
   public override void _Process(double delta) {
-	milliseconds += delta * 1000d * timeSpeed;
-	if (milliseconds < 1000) return;
+    milliseconds += delta * 1000d * timeSpeed;
+    if (milliseconds < 1000) return;
 
-	second += (ulong)(milliseconds / 1000);
-	milliseconds %= 1000;
-	OnSecondUpdated?.Invoke(second);
+    second += (ulong)(milliseconds / 1000);
+    milliseconds %= 1000;
+    OnSecondUpdated?.Invoke(second);
 
-	CascadeTime(ref second, ref minute, 60ul, OnMinuteUpdated);
-	CascadeTime(ref minute, ref hour, 60ul, OnHourUpdated);
-	CascadeTime(ref hour, ref day, 24ul, OnDayUpdated);
-	CascadeDay(ref day, ref month, OnMonthUpdated);
-	CascadeTime(ref month, ref year, 12ul, OnYearUpdated, true);
+    CascadeTime(ref second, ref minute, 60ul, OnMinuteUpdated);
+    CascadeTime(ref minute, ref hour, 60ul, OnHourUpdated);
+    CascadeTime(ref hour, ref day, 24ul, OnDayUpdated);
+    CascadeDay(ref day, ref month, OnMonthUpdated);
+    CascadeTime(ref month, ref year, 12ul, OnYearUpdated, true);
 
-	GD.Print($"{year}-{month}-{day}T{hour}:{minute}:{second}.{(int)milliseconds}");
+    GD.Print($"{year}-{month}-{day}T{hour}:{minute}:{second}.{(int)milliseconds}");
   }
 
   public TMDateTime GetDateTime() {
-	return new TMDateTime {
-	  year = year,
-	  month = month,
-	  day = day,
-	  hour = hour,
-	  minute = minute,
-	  second = second,
-	};
+    return new TMDateTime {
+      year = year,
+      month = month,
+      day = day,
+      hour = hour,
+      minute = minute,
+      second = second,
+    };
   }
 
   private void CascadeTime(ref ulong startVal, ref ulong overflowVal, ulong capacity, Action<ulong> overflowCallback, bool startsAtOne = false) {
-	var adjStartVal = startsAtOne ? startVal - 1ul : startVal;
+    var adjStartVal = startsAtOne ? startVal - 1ul : startVal;
 
-	if (adjStartVal < capacity) return;
+    if (adjStartVal < capacity) return;
 
-	overflowVal += adjStartVal / capacity;
-	startVal = adjStartVal % capacity + (startsAtOne ? 1ul : 0ul);
+    overflowVal += adjStartVal / capacity;
+    startVal = adjStartVal % capacity + (startsAtOne ? 1ul : 0ul);
 
-	overflowCallback?.Invoke(overflowVal);
+    overflowCallback?.Invoke(overflowVal);
   }
 
   private void CascadeDay(ref ulong day, ref ulong month, Action<ulong> overflowCallback) {
-	bool overflow, monthUpdated = false;
-	do {
-	  overflow = false;
-	  ulong monthLength = month == 2ul ? (IsLeapyear(year) ? 29ul : 28ul) : monthLengths[(month - 1) % 12 + 1];
-	  if (day > monthLength) {
-		overflow = true;
-		day -= monthLength;
-		month++;
-		monthUpdated = true;
-	  }
-	} while (overflow);
+    bool overflow, monthUpdated = false;
+    do {
+      overflow = false;
+      ulong monthLength = month == 2ul ? (IsLeapyear(year) ? 29ul : 28ul) : monthLengths[(month - 1) % 12 + 1];
+      if (day > monthLength) {
+        overflow = true;
+        day -= monthLength;
+        month++;
+        monthUpdated = true;
+      }
+    } while (overflow);
 
-	if (monthUpdated) overflowCallback?.Invoke(month);
+    if (monthUpdated) overflowCallback?.Invoke(month);
   }
 
   private bool IsLeapyear(ulong year) {
-	return (
-	  year % 4ul == 0ul && (
-	  year % 100ul != 0ul ||
-	  year % 400ul == 0ul
-	  )
-	);
+    return (
+      year % 4ul == 0ul && (
+      year % 100ul != 0ul ||
+      year % 400ul == 0ul
+      )
+    );
   }
 }
