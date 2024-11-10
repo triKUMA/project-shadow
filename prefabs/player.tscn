@@ -1,8 +1,8 @@
 [gd_scene load_steps=8 format=3 uid="uid://bt5d3s8p878tf"]
 
-[ext_resource type="Script" path="res://scripts/PlayerController.cs" id="1_jxmdr"]
-[ext_resource type="Script" path="res://scripts/CameraController.cs" id="2_1dtay"]
-[ext_resource type="Script" path="res://scripts/PlayerSkinController.cs" id="2_l3ddx"]
+[ext_resource type="Script" path="res://scripts/player/PlayerController.cs" id="1_jxmdr"]
+[ext_resource type="Script" path="res://scripts/camera/CameraController.cs" id="2_1dtay"]
+[ext_resource type="Script" path="res://scripts/player/PlayerSkinController.cs" id="2_l3ddx"]
 
 [sub_resource type="CapsuleMesh" id="CapsuleMesh_tmsw0"]
 
