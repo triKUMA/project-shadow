@@ -4,8 +4,8 @@ using System.ComponentModel.DataAnnotations;
 using Range = Godot.Range;
 
 public partial class PlayerController : CharacterBody3D {
-  [Export] public float movementSpeed { get; private set; } = 8f;
-  [Export] public float acceleration { get; private set; } = 20f;
+  [Export] public float movementSpeed { get; private set; } = 6f;
+  [Export] public float acceleration { get; private set; } = 40f;
   [Export] public float jumpImpulse { get; private set; } = 12f;
   [Export] public float gravity { get; private set; } = -30f;
 
