@@ -1,3 +1,4 @@
+using System.Linq;
 using Godot;
 
 public static class GDExtensions {
@@ -34,5 +35,15 @@ public static class GDExtensions {
     }
 
     return null;
+  }
+
+  /// <summary>
+  /// Gets the root scene node.
+  /// </summary>
+  public static T GetRootNode<T>(string rootNodeName) where T : Node {
+    var sceneTree = Engine.GetMainLoop() as SceneTree;
+    var sceneTreeRoot = sceneTree.Root;
+    var rootNode = sceneTreeRoot.GetChildren().First(n => n.Name == rootNodeName) as T;
+    return rootNode;
   }
 }

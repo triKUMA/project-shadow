@@ -24,6 +24,8 @@ public partial class DayNightManager : Node {
 
     Instance = this;
 
+    TimeManager.Instance.OnHourUpdated += (hour) => GD.Print($"hour: {hour}");
+
     sun.RotationDegrees = new Vector3(0f, 90f, 0f);
     moon.RotationDegrees = new Vector3(0f, 90f, 0f);
 

@@ -20,7 +20,7 @@ public partial class PlayerController : CharacterBody3D {
   private Camera3D camera;
 
   public override void _Ready() {
-    camera = GDExtensions.GetChildByType<Camera3D>(this);
+    camera = this.GetChildByType<Camera3D>();
   }
 
   public override void _Process(double delta) {
@@ -33,7 +33,7 @@ public partial class PlayerController : CharacterBody3D {
     desiredVelocity.Y = 0;
     desiredVelocity = desiredVelocity.Normalized();
 
-    isStartingJump |= Input.IsActionPressed("jump") && IsOnFloor();
+    isStartingJump |= Input.IsActionJustPressed("jump") && IsOnFloor();
   }
 
   public override void _PhysicsProcess(double doubleDelta) {

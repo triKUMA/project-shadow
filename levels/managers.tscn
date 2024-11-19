@@ -7,7 +7,7 @@
 
 [node name="TimeManager" type="Node3D" parent="."]
 script = ExtResource("1_godug")
-dayLength = 1.0
+dayLength = 0.1
 
 [node name="DayNightManager" type="Node3D" parent="." node_paths=PackedStringArray("sun", "moon")]
 script = ExtResource("2_cxudx")
