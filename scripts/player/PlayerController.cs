@@ -4,13 +4,13 @@ using System.ComponentModel.DataAnnotations;
 using Range = Godot.Range;
 
 public partial class PlayerController : CharacterBody3D {
-  [Export] public float movementSpeed { get; private set; } = 6f;
-  [Export] public float acceleration { get; private set; } = 40f;
-  [Export] public float jumpImpulse { get; private set; } = 12f;
-  [Export] public float gravity { get; private set; } = -30f;
+  [Export] private float movementSpeed = 6f;
+  [Export] private float acceleration = 40f;
+  [Export] private float jumpImpulse = 12f;
+  [Export] private float gravity = -30f;
 
-  public Vector3 lastMovementDirection { get; private set; } = Vector3.Back;
-  public bool isMoving => desiredVelocity.LengthSquared() > movingThreshold;
+  public Vector3 LastMovementDirection { get; private set; } = Vector3.Back;
+  public bool IsMoving => desiredVelocity.LengthSquared() > movingThreshold;
 
   private Vector3 desiredVelocity = Vector3.Zero;
   private Vector3 velocity = Vector3.Zero;
@@ -33,7 +33,7 @@ public partial class PlayerController : CharacterBody3D {
     desiredVelocity.Y = 0;
     desiredVelocity = desiredVelocity.Normalized();
 
-    isStartingJump |= Input.IsActionJustPressed("jump") && IsOnFloor();
+    isStartingJump |= Input.IsActionPressed("jump") && IsOnFloor();
   }
 
   public override void _PhysicsProcess(double doubleDelta) {
@@ -52,7 +52,7 @@ public partial class PlayerController : CharacterBody3D {
     MoveAndSlide();
 
     if (desiredVelocity.LengthSquared() > movingThreshold * movingThreshold) {
-      lastMovementDirection = desiredVelocity;
+      LastMovementDirection = desiredVelocity;
     }
   }
 }

@@ -26,8 +26,8 @@ public static class TMConstants {
   }
 
   public enum Hemisphere {
-    South,
-    North
+    North,
+    South
   }
 
   public static readonly Dictionary<Month, string> MonthNames = new() {
@@ -35,7 +35,7 @@ public static class TMConstants {
     {Month.February, "February"},
     {Month.March, "March"},
     {Month.April, "April"},
-    {Month.March, "May"},
+    {Month.May, "May"},
     {Month.June, "June"},
     {Month.July, "July"},
     {Month.August, "August"},
@@ -72,7 +72,7 @@ public static class TMConstants {
     {Month.February, new[]{Season.Winter, Season.Summer}},
     {Month.March, new[]{Season.Spring, Season.Autumn}},
     {Month.April, new[]{Season.Spring, Season.Autumn}},
-    {Month.March, new[]{Season.Spring, Season.Autumn}},
+    {Month.May, new[]{Season.Spring, Season.Autumn}},
     {Month.June, new[]{Season.Summer, Season.Winter}},
     {Month.July, new[]{Season.Summer, Season.Winter}},
     {Month.August, new[]{Season.Summer, Season.Winter}},
@@ -83,33 +83,33 @@ public static class TMConstants {
   };
 
   public static readonly Dictionary<Month, TMTime[]> MonthSunriseTime = new() {
-    {Month.January, new[]{new TMTime{hour = 5, minute = 26}, new TMTime{hour = 0, minute = 0}}},
-    {Month.February, new[]{new TMTime{hour = 5, minute = 53}, new TMTime{hour = 0, minute = 0}}},
-    {Month.March, new[]{new TMTime{hour = 6, minute = 17}, new TMTime{hour = 0, minute = 0}}},
-    {Month.April, new[]{new TMTime{hour = 6, minute = 37}, new TMTime{hour = 0, minute = 0}}},
-    {Month.May, new[]{new TMTime{hour = 6, minute = 58}, new TMTime{hour = 0, minute = 0}}},
-    {Month.June, new[]{new TMTime{hour = 7, minute = 14}, new TMTime{hour = 0, minute = 0}}},
-    {Month.July, new[]{new TMTime{hour = 7, minute = 13}, new TMTime{hour = 0, minute = 0}}},
-    {Month.August, new[]{new TMTime{hour = 6, minute = 51}, new TMTime{hour = 0, minute = 0}}},
-    {Month.September, new[]{new TMTime{hour = 6, minute = 14}, new TMTime{hour = 0, minute = 0}}},
-    {Month.October, new[]{new TMTime{hour = 5, minute = 36}, new TMTime{hour = 0, minute = 0}}},
-    {Month.November, new[]{new TMTime{hour = 5, minute = 9}, new TMTime{hour = 0, minute = 0}}},
-    {Month.December, new[]{new TMTime{hour = 5, minute = 6}, new TMTime{hour = 0, minute = 0}}},
+    {Month.January, new[]{new TMTime{hour = 0, minute = 0}, new TMTime{hour = 5, minute = 26}}},
+    {Month.February, new[]{new TMTime{hour = 0, minute = 0}, new TMTime{hour = 5, minute = 53}}},
+    {Month.March, new[]{new TMTime{hour = 0, minute = 0}, new TMTime{hour = 6, minute = 17}}},
+    {Month.April, new[]{new TMTime{hour = 0, minute = 0}, new TMTime{hour = 6, minute = 37}}},
+    {Month.May, new[]{new TMTime{hour = 0, minute = 0}, new TMTime{hour = 6, minute = 58}}},
+    {Month.June, new[]{new TMTime{hour = 0, minute = 0}, new TMTime{hour = 7, minute = 14}}},
+    {Month.July, new[]{new TMTime{hour = 0, minute = 0}, new TMTime{hour = 7, minute = 13}}},
+    {Month.August, new[]{new TMTime{hour = 0, minute = 0}, new TMTime{hour = 6, minute = 51}}},
+    {Month.September, new[]{new TMTime{hour = 0, minute = 0}, new TMTime{hour = 6, minute = 14}}},
+    {Month.October, new[]{new TMTime{hour = 0, minute = 0}, new TMTime{hour = 5, minute = 36}}},
+    {Month.November, new[]{new TMTime{hour = 0, minute = 0}, new TMTime{hour = 5, minute = 9}}},
+    {Month.December, new[]{new TMTime{hour = 0, minute = 0}, new TMTime{hour = 5, minute = 6}}},
   };
 
   public static readonly Dictionary<Month, TMTime[]> MonthSunsetTime = new() {
-    {Month.January, new[]{new TMTime{hour = 19, minute = 24}, new TMTime{hour = 0, minute = 0}}},
-    {Month.February, new[]{new TMTime{hour = 19, minute = 6}, new TMTime{hour = 0, minute = 0}}},
-    {Month.March, new[]{new TMTime{hour = 18, minute = 32}, new TMTime{hour = 0, minute = 0}}},
-    {Month.April, new[]{new TMTime{hour = 17, minute = 55}, new TMTime{hour = 0, minute = 0}}},
-    {Month.May, new[]{new TMTime{hour = 17, minute = 28}, new TMTime{hour = 0, minute = 0}}},
-    {Month.June, new[]{new TMTime{hour = 17, minute = 20}, new TMTime{hour = 0, minute = 0}}},
-    {Month.July, new[]{new TMTime{hour = 17, minute = 31}, new TMTime{hour = 0, minute = 0}}},
-    {Month.August, new[]{new TMTime{hour = 17, minute = 50}, new TMTime{hour = 0, minute = 0}}},
-    {Month.September, new[]{new TMTime{hour = 18, minute = 9}, new TMTime{hour = 0, minute = 0}}},
-    {Month.October, new[]{new TMTime{hour = 18, minute = 29}, new TMTime{hour = 0, minute = 0}}},
-    {Month.November, new[]{new TMTime{hour = 18, minute = 54}, new TMTime{hour = 0, minute = 0}}},
-    {Month.December, new[]{new TMTime{hour = 19, minute = 18}, new TMTime{hour = 0, minute = 0}}},
+    {Month.January, new[]{new TMTime{hour = 0, minute = 0}, new TMTime{hour = 19, minute = 24}}},
+    {Month.February, new[]{new TMTime{hour = 0, minute = 0}, new TMTime{hour = 19, minute = 6}}},
+    {Month.March, new[]{new TMTime{hour = 0, minute = 0}, new TMTime{hour = 18, minute = 32}}},
+    {Month.April, new[]{new TMTime{hour = 0, minute = 0}, new TMTime{hour = 17, minute = 55}}},
+    {Month.May, new[]{new TMTime{hour = 0, minute = 0}, new TMTime{hour = 17, minute = 28}}},
+    {Month.June, new[]{new TMTime{hour = 0, minute = 0}, new TMTime{hour = 17, minute = 20}}},
+    {Month.July, new[]{new TMTime{hour = 0, minute = 0}, new TMTime{hour = 17, minute = 31}}},
+    {Month.August, new[]{new TMTime{hour = 0, minute = 0}, new TMTime{hour = 17, minute = 50}}},
+    {Month.September, new[]{new TMTime{hour = 0, minute = 0}, new TMTime{hour = 18, minute = 9}}},
+    {Month.October, new[]{new TMTime{hour = 0, minute = 0}, new TMTime{hour = 18, minute = 29}}},
+    {Month.November, new[]{new TMTime{hour = 0, minute = 0}, new TMTime{hour = 18, minute = 54}}},
+    {Month.December, new[]{new TMTime{hour = 0, minute = 0}, new TMTime{hour = 19, minute = 18}}},
   };
 }
 
